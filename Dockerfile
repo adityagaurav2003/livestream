@@ -1,14 +1,25 @@
 FROM ubuntu:focal
 
-RUN /usr/bin/apt-get update && \
-    /usr/bin/apt-get install -y curl && \
+# Install Node.js and ffmpeg
+RUN apt-get update && \
+    apt-get install -y curl && \
     curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
-    /usr/bin/apt-get update && \
-    /usr/bin/apt-get upgrade -y && \
-    /usr/bin/apt-get install -y nodejs ffmpeg
+    apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y nodejs ffmpeg
 
+# Set working directory
 WORKDIR /home/app
 
-RUN npm i -g nodemon
+# Copy package.json and install dependencies
+COPY package*.json ./
+RUN npm install
 
-CMD nodemon index.js
+# Copy app code
+COPY . .
+
+# Expose port (required for Render detection)
+EXPOSE 3000
+
+# Start your app directly (no nodemon)
+CMD ["node", "index.js"]
