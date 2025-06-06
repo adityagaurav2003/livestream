@@ -5,12 +5,11 @@ pipeline {
         IMAGE_NAME = "live-stream-app"
     }
 
-    stages {
-        stage('Clone Repo') {
-            steps {
-                git 'https://github.com/your-username/your-repo.git'
-            }
-        }
+   stage('Clone Repo') {
+    steps {
+        git 'https://github.com/adityagaurav2003/livestream.git'
+    }
+}
 
         stage('Build Docker Image') {
             steps {
